@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
-import 'package:my_xpenses/sql/database_helper.dart';
+import 'package:my_xpenses/database/database_helper.dart';
 
 class SpeedDialWidget extends StatefulWidget {
   const SpeedDialWidget({super.key});
@@ -25,7 +25,7 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget> {
   var buttonSize = const Size(56.0, 56.0);
   var childrenButtonSize = const Size(56.0, 56.0);
 
-  DatabaseHelper mydb = DatabaseHelper();
+  DBHelper mydb = DBHelper();
   @override
   Widget build(BuildContext context) {
     return SpeedDial(
@@ -84,7 +84,7 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget> {
           onTap: () {
             showDialogWithFields();
             setState(() {
-              mydb.open();
+              // mydb.open();
             });
           },
           onLongPress: () => debugPrint('FIRST CHILD LONG PRESS'),
@@ -132,9 +132,9 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget> {
                 // Send them to your email maybe?
                 var month = monthController.text;
                 var desc = descriptionController.text;
-                mydb.db.rawInsert(
-                    "INSERT INTO expenses (month, description) VALUES (?, ?);",
-                    [month, desc]);
+                // mydb.db.rawInsert(
+                //     "INSERT INTO expenses (month, description) VALUES (?, ?);",
+                //     [month, desc]);
 
                 ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("New Expenses Added")));
