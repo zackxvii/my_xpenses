@@ -24,16 +24,16 @@ class DBHelper {
 
   _onCreate(Database db, int version) async {
     await db.execute('CREATE TABLE $expensetable('
-        'id INTEGER PRIMARY KEY AUTOINCREMENT, title STRING, desc TEXT'
+        'id INTEGER PRIMARY KEY AUTOINCREMENT, title STRING, desc STRING'
         ')');
   }
 
-  Future<int> insertTask(ExpenseModel exp) async {
+  Future<int> createExpenses(ExpenseModel exp) async {
     Database? db = await DBHelper._database;
     return await db!.insert(expensetable, {
       'title': exp.title,
-      'exp': exp.desc,
-      'date': exp.date,
+      'desc': exp.desc,
+      // 'date': exp.date,
     });
   }
 

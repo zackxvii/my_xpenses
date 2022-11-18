@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
+import 'package:my_xpenses/controller/expenses_controller.dart';
 import 'package:my_xpenses/database/database_helper.dart';
+import 'package:my_xpenses/model/expense_model.dart';
+import 'package:my_xpenses/shared/fontcolor_shared.dart';
 
 class SpeedDialWidget extends StatefulWidget {
   const SpeedDialWidget({super.key});
@@ -11,6 +14,8 @@ class SpeedDialWidget extends StatefulWidget {
 }
 
 class _SpeedDialWidgetState extends State<SpeedDialWidget> {
+  ExpensesController ec = ExpensesController();
+  ExpenseModel em = ExpenseModel();
   var renderOverlay = true;
   var visible = true;
   var switchLabelPosition = false;
@@ -29,7 +34,7 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget> {
   @override
   Widget build(BuildContext context) {
     return SpeedDial(
-      backgroundColor: Colors.cyan,
+      backgroundColor: primaryColor,
       icon: Icons.add,
       activeIcon: Icons.close,
       spacing: 3,
@@ -104,8 +109,8 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget> {
     return showDialog(
       context: context,
       builder: (_) {
-        var monthController = TextEditingController();
-        var descriptionController = TextEditingController();
+        TextEditingController monthController = TextEditingController();
+        TextEditingController descriptionController = TextEditingController();
         return AlertDialog(
           title: const Text('New Tracking'),
           content: SingleChildScrollView(
@@ -128,20 +133,18 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget> {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 // Send them to your email maybe?
                 var month = monthController.text;
                 var desc = descriptionController.text;
-                // mydb.db.rawInsert(
-                //     "INSERT INTO expenses (month, description) VALUES (?, ?);",
-                //     [month, desc]);
-
+                em.title = month;
+                em.desc = desc;
                 ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("New Expenses Added")));
-
+                await ec.addExpenses(em);
                 monthController.text = "";
                 descriptionController.text = "";
-                Navigator.pop(context);
+                Get.back();
               },
               child: const Text('Save'),
             ),

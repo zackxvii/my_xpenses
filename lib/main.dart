@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_xpenses/database/database_helper.dart';
 import 'package:my_xpenses/routes/app_pages.dart';
 import 'package:my_xpenses/shared/fontcolor_shared.dart';
 import 'package:my_xpenses/shared/fontsize_shared.dart';
@@ -8,7 +10,10 @@ import 'package:my_xpenses/util/theme.dart';
 import 'package:my_xpenses/util/translate.dart';
 import 'package:sizer/sizer.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+  await DBHelper().database;
   runApp(const MyApp());
 }
 
