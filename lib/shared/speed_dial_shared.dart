@@ -14,7 +14,7 @@ class SpeedDialWidget extends StatefulWidget {
 }
 
 class _SpeedDialWidgetState extends State<SpeedDialWidget> {
-  ExpensesController ec = ExpensesController();
+  ExpensesController ec = Get.find();
   ExpenseModel em = ExpenseModel();
   var renderOverlay = true;
   var visible = true;
@@ -99,7 +99,9 @@ class _SpeedDialWidgetState extends State<SpeedDialWidget> {
           backgroundColor: Colors.deepOrange,
           foregroundColor: Colors.white,
           label: 'Coming Soon!',
-          onTap: () => debugPrint('SECOND CHILD'),
+          onTap: () {
+            Get.toNamed('/addexpense');
+          },
         ),
       ],
     );
