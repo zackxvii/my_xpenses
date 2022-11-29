@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:my_xpenses/controller/expenses_controller.dart';
 import 'package:my_xpenses/model/expense_model.dart';
@@ -83,22 +84,41 @@ class _DashboardPageState extends State<DashboardPage> {
           itemCount: ec.expensesList.length,
           itemBuilder: (BuildContext context, int index) {
             ExpenseModel em = ec.expensesList[index];
-            return ListTile(
-              title: Text(
-                em.title!,
-                textScaleFactor: 1.5,
+            return Slidable(
+              // Specify a key if the Slidable is dismissible.
+              key: const ValueKey(0),
+              // The end action pane is the one at the right or the bottom side.
+              endActionPane: ActionPane(
+                motion: const ScrollMotion(),
+                children: [
+                  SlidableAction(
+                    onPressed: ((context) => {ec.deleteExpenses(em.id)}),
+                    backgroundColor: const Color(0xFFFE4A49),
+                    foregroundColor: Colors.white,
+                    icon: Icons.delete,
+                    label: 'Delete',
+                  ),
+                ],
               ),
-              trailing: const Icon(Icons.edit),
-              subtitle: Text(em.desc!),
-              selected: true,
-              onTap: () {
-                setState(
-                  () {
-                    txt = 'List Tile pressed';
-                    Get.toNamed(path);
-                  },
-                );
-              },
+              // The child of the Slidable is what the user sees when the
+              // component is not dragged.
+              child: ListTile(
+                title: Text(
+                  em.title!,
+                  textScaleFactor: 1.5,
+                ),
+                trailing: const Icon(Icons.edit),
+                subtitle: Text(em.desc!),
+                selected: true,
+                onTap: () {
+                  setState(
+                    () {
+                      txt = 'List Tile pressed';
+                      Get.toNamed(path);
+                    },
+                  );
+                },
+              ),
             );
           },
         );

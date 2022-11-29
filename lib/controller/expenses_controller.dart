@@ -17,12 +17,12 @@ class ExpensesController extends GetxController {
     getExpenses();
   }
 
-  deleteTask(int? id) async {
+  deleteExpenses(int? id) async {
     await DBHelper().delete(id!);
     getExpenses();
   }
 
-  deleteAllTasks() async {
+  deleteAllExpenses() async {
     await DBHelper().deleteAllTasks();
     getExpenses();
   }

@@ -41,6 +41,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   String _startDate = DateFormat('hh:mm a').format(DateTime.now());
   String _endDate = DateFormat('hh:mm a')
       .format(DateTime.now().add(const Duration(minutes: 15)));
+  final String _currentYear = DateFormat.y().format(DateTime.now()).toString();
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
@@ -100,73 +101,97 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                   const SizedBox(
                     height: 20,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 210,
+                        child: InputField(
+                          controller: _monthController,
+                          isEnabled: false,
+                          hint: 'Please Select Month',
+                          label: 'Month',
+                          iconOrdrop: 'drop',
+                          widget: DropdownButton(
+                            items: monthList
+                                .map<DropdownMenuItem<String>>(
+                                  (value) => DropdownMenuItem<String>(
+                                    value: value.toString(),
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(
+                                          color: Get.isDarkMode
+                                              ? Colors.white
+                                              : Colors.black),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down,
+                              color: Colors.grey,
+                            ),
+                            iconSize: 20,
+                            underline: Container(
+                              height: 0,
+                            ),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                // _selectedReminder = int.parse(newValue!);
+                                // _monthController.text = _selectedReminder.toString();
+                                _monthController.text = newValue!;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 125,
+                        child: InputField(
+                          controller: _endTimeController,
+                          isEnabled: false,
+                          iconOrdrop: 'drop',
+                          label: 'Year',
+                          hint: _currentYear,
+                          widget: IconButton(
+                            icon: const Icon(Icons.calendar_today_sharp),
+                            onPressed: () {
+                              // _selectEndTime(context);
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   InputField(
                     isEnabled: true,
                     hint: 'Enter Note',
-                    label: 'Note',
+                    label: 'Description',
                     iconOrdrop: 'icon',
-                    controller: _noteController,
+                    controller: _descController,
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   // InputField(
-                  //   controller: _monthController,
+                  //   controller: _dateController,
                   //   isEnabled: false,
-                  //   hint: 'Please Select Month',
-                  //   label: 'Month',
-                  //   iconOrdrop: 'drop',
-                  //   widget: DropdownButton(
-                  //     items: monthList
-                  //         .map<DropdownMenuItem<String>>(
-                  //           (value) => DropdownMenuItem<String>(
-                  //             value: value.toString(),
-                  //             child: Text(
-                  //               value,
-                  //               style: TextStyle(
-                  //                   color: Get.isDarkMode
-                  //                       ? Colors.white
-                  //                       : Colors.black),
-                  //             ),
-                  //           ),
-                  //         )
-                  //         .toList(),
-                  //     icon: const Icon(
-                  //       Icons.keyboard_arrow_down,
-                  //       color: Colors.grey,
-                  //     ),
-                  //     iconSize: 20,
-                  //     underline: Container(
-                  //       height: 0,
-                  //     ),
-                  //     onChanged: (String? newValue) {
-                  //       setState(() {
-                  //         _selectedReminder = int.parse(newValue!);
-                  //         _reminderController.text =
-                  //             _selectedReminder.toString();
-                  //       });
+                  //   hint: _selectedDate.toString(),
+                  //   label: 'Date',
+                  //   iconOrdrop: 'button',
+                  //   widget: IconButton(
+                  //     icon: const Icon(Icons.date_range),
+                  //     onPressed: () {
+                  //       _selectDate(context);
                   //     },
                   //   ),
                   // ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  InputField(
-                    controller: _dateController,
-                    isEnabled: false,
-                    hint: _selectedDate.toString(),
-                    label: 'Date',
-                    iconOrdrop: 'button',
-                    widget: IconButton(
-                      icon: const Icon(Icons.date_range),
-                      onPressed: () {
-                        _selectDate(context);
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  // const SizedBox(
+                  //   height: 20,
+                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -200,7 +225,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
 
   _addTaskToDB(ExpenseModel em) {
     em.title = _titleController.text;
-    em.desc = _noteController.text;
+    em.desc = _descController.text;
     // em. = _selectedDate.toString();
   }
 
