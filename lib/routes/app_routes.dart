@@ -3,4 +3,5 @@ class AppRoutes {
   static const String detailpage = '/detailpage';
   static const String flashcreen = '/flashscreen';
   static const String addexpense = '/addexpense';
+  static const String additem = '/additem';
 }

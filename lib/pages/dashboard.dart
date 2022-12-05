@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:my_xpenses/controller/expenses_controller.dart';
+import 'package:my_xpenses/controller/item_controller.dart';
 import 'package:my_xpenses/model/expense_model.dart';
 import 'package:my_xpenses/shared/appbar_shared.dart';
 import 'package:my_xpenses/shared/fontcolor_shared.dart';
 import 'package:my_xpenses/shared/fontsize_shared.dart';
+import 'package:my_xpenses/util/theme.dart';
 import '../shared/speed_dial_shared.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -18,6 +21,7 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   var selectedfABLocation = FloatingActionButtonLocation.endFloat;
   ExpensesController ec = Get.put(ExpensesController());
+  ItemController _itemController = Get.put(ItemController());
 
   @override
   void initState() {
@@ -76,53 +80,82 @@ class _DashboardPageState extends State<DashboardPage> {
 
   secondPart(String path) {
     String txt = '';
-    return Obx((() {
-      if (ec.expensesList.isEmpty) {
-        return const Text("Empty");
-      } else {
-        return ListView.builder(
-          itemCount: ec.expensesList.length,
-          itemBuilder: (BuildContext context, int index) {
-            ExpenseModel em = ec.expensesList[index];
-            return Slidable(
-              // Specify a key if the Slidable is dismissible.
-              key: const ValueKey(0),
-              // The end action pane is the one at the right or the bottom side.
-              endActionPane: ActionPane(
-                motion: const ScrollMotion(),
-                children: [
-                  SlidableAction(
-                    onPressed: ((context) => {ec.deleteExpenses(em.id)}),
-                    backgroundColor: const Color(0xFFFE4A49),
-                    foregroundColor: Colors.white,
-                    icon: Icons.delete,
-                    label: 'Delete',
-                  ),
-                ],
-              ),
-              // The child of the Slidable is what the user sees when the
-              // component is not dragged.
-              child: ListTile(
-                title: Text(
-                  em.title!,
-                  textScaleFactor: 1.5,
+    return Obx(
+      (() {
+        if (ec.expensesList.isEmpty) {
+          return _expenseEmpty();
+        } else {
+          return ListView.builder(
+            itemCount: ec.expensesList.length,
+            itemBuilder: (BuildContext context, int index) {
+              ExpenseModel em = ec.expensesList[index];
+              return Slidable(
+                key: const ValueKey(0),
+                endActionPane: ActionPane(
+                  motion: const ScrollMotion(),
+                  children: [
+                    SlidableAction(
+                      onPressed: ((context) => {ec.deleteExpenses(em.id)}),
+                      backgroundColor: const Color(0xFFFE4A49),
+                      foregroundColor: Colors.white,
+                      icon: Icons.delete,
+                      label: 'Delete',
+                    ),
+                  ],
                 ),
-                trailing: const Icon(Icons.edit),
-                subtitle: Text(em.desc!),
-                selected: true,
-                onTap: () {
-                  setState(
-                    () {
-                      txt = 'List Tile pressed';
-                      Get.toNamed(path);
-                    },
-                  );
-                },
-              ),
-            );
-          },
-        );
-      }
-    }));
+                // The child of the Slidable is what the user sees when the
+                // component is not dragged.
+                child: ListTile(
+                  title: Text(
+                    em.title!,
+                    textScaleFactor: 1.5,
+                  ),
+                  trailing: const Icon(Icons.edit),
+                  subtitle: Text(em.desc!),
+                  selected: true,
+                  onTap: () {
+                    setState(
+                      () {
+                        txt = 'List Tile pressed';
+                        Get.toNamed(path);
+                      },
+                    );
+                  },
+                ),
+              );
+            },
+          );
+        }
+      }),
+    );
+  }
+
+  Widget _expenseEmpty() {
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MediaQuery.of(context).orientation == Orientation.portrait
+                ? const SizedBox(
+                    height: 0,
+                  )
+                : const SizedBox(
+                    height: 50,
+                  ),
+            SvgPicture.asset(
+              'assets/images/task.svg',
+              height: 200,
+              color: darkGreyClr.withOpacity(0.5),
+              semanticsLabel: 'Tasks',
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Text("Empty"),
+          ],
+        ),
+      ),
+    );
   }
 }

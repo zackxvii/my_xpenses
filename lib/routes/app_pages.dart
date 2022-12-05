@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:my_xpenses/pages/create_expenses_page.dart';
+import 'package:my_xpenses/pages/create_item_page.dart';
 import 'package:my_xpenses/pages/dashboard.dart';
 import 'package:my_xpenses/pages/detailpage.dart';
 import 'package:my_xpenses/pages/flashpage.dart';
@@ -27,6 +28,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.addexpense,
       page: () => const AddExpenseScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.additem,
+      page: () => const CreateItemPage(),
     ),
   ];
 }

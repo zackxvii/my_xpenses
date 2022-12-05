@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:my_xpenses/shared/fontcolor_shared.dart';
 import 'package:my_xpenses/shared/size_shared.dart';
 
@@ -27,7 +28,7 @@ class AppBarShared extends StatelessWidget implements PreferredSizeWidget {
               color: whiteColor,
             ),
             onTap: () async {
-              // Get.to(() => const NotificationScreen());
+              Get.toNamed('/additem');
             },
           ),
         ),

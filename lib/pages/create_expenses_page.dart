@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:my_xpenses/controller/expenses_controller.dart';
+import 'package:my_xpenses/controller/item_controller.dart';
 import 'package:my_xpenses/model/expense_model.dart';
 import 'package:my_xpenses/shared/input_field.dart';
 import 'package:my_xpenses/util/theme.dart';
@@ -16,7 +17,7 @@ class AddExpenseScreen extends StatefulWidget {
 }
 
 class _AddExpenseScreenState extends State<AddExpenseScreen> {
-  final ExpensesController _expensesController = Get.find();
+  final ExpensesController _expenseController = Get.find();
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _monthController = TextEditingController();

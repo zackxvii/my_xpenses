@@ -34,7 +34,7 @@ class _DetailPageState extends State<DetailPage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(0),
         child: DataTable2(
           columnSpacing: 12,
           horizontalMargin: 12,
