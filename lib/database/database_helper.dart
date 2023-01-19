@@ -26,10 +26,10 @@ class DBHelper {
 
   _onCreate(Database db, int version) async {
     await db.execute('CREATE TABLE $expensetable('
-        'id INTEGER PRIMARY KEY AUTOINCREMENT, title STRING, desc STRING'
+        'id INTEGER PRIMARY KEY AUTOINCREMENT, title STRING NOT NULL, desc STRING'
         ')');
     await db.execute('CREATE TABLE $itemtable('
-        'itemId INTEGER PRIMARY KEY AUTOINCREMENT, itemName STRING'
+        'itemId INTEGER PRIMARY KEY AUTOINCREMENT, expensesTableid INTEGER NOT NULL, itemName STRING NOT NULL, budget STRING NOT NULL'
         ')');
   }
 
@@ -45,6 +45,13 @@ class DBHelper {
   Future<List<Map<String, dynamic>>> queryAllRows() async {
     Database? db = await DBHelper._database;
     return await db!.query(expensetable);
+  }
+
+  Future getExpenseByID(int id) async {
+    Database? db = await DBHelper._database;
+    List p = await db!.rawQuery('SELECT * FROM expenses_table where id=$id');
+    print(p);
+    return await db!.rawQuery('SELECT * FROM $expensetable where id=$id');
   }
 
   Future<int> delete(int id) async {
@@ -65,14 +72,20 @@ class DBHelper {
     ''', [1, 1, id]);
   }
 
+  Future<List<Map<String, dynamic>>> queryAllRowsItem() async {
+    Database? db = await DBHelper._database;
+    return await db!.query(itemtable);
+  }
+
   //create item
   Future<int> createItem(ExpenseListModel explist) async {
-    Database? db = await DBHelper._database;
+    Database? db = DBHelper._database;
+    print('dlm helper: ${explist.expensesTableid}');
+    print('dlm helper: ${explist.itemName}');
     return await db!.insert(itemtable, {
-      // 'expensestableid': explist,
+      'expensesTableid': explist.expensesTableid,
       'itemName': explist.itemName,
-      // 'budget': explist.budget,
-      // 'date': exp.date,
+      'budget': explist.budget,
     });
   }
 }

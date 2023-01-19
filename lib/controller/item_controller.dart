@@ -3,17 +3,20 @@ import 'package:my_xpenses/database/database_helper.dart';
 import 'package:my_xpenses/model/exp_list_model.dart';
 
 class ItemController extends GetxController {
-  final RxList itemList = <ExpenseListModel>[].obs;
+  var itemList = <ExpenseListModel>[].obs;
 
   Future<void> getItemList() async {
-    final List<Map<String, dynamic>> exp = await DBHelper().queryAllRows();
+    final List<Map<String, dynamic>> list = await DBHelper().queryAllRowsItem();
     itemList
-        .assignAll(exp.map((data) => ExpenseListModel.fromMap(data)).toList());
+        .assignAll(list.map((data) => ExpenseListModel.fromMap(data)).toList());
+    print(itemList.length);
   }
 
   addItem(ExpenseListModel exp) async {
     await DBHelper().createItem(exp);
     itemList.add(exp);
+    print('dlm item controller: ${itemList.length}');
+    print('dlm item controller: ${exp.itemName}');
     getItemList();
   }
 

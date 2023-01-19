@@ -226,7 +226,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
 
   _addTaskToDB(ExpenseModel em) {
     em.title = _titleController.text;
-    em.desc = _descController.text;
+    em.desc = _descController.text.toString();
     // em. = _selectedDate.toString();
   }
 

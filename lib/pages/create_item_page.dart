@@ -15,8 +15,9 @@ class CreateItemPage extends StatefulWidget {
 }
 
 class _CreateItemPageState extends State<CreateItemPage> {
+  final expenseID = Get.arguments;
   final ItemController _itemController = Get.find();
-  final _formKey = GlobalKey<FormState>();
+  final _formKey1 = GlobalKey<FormState>();
   final TextEditingController _itemNameController = TextEditingController();
   final TextEditingController _totalBudgetController = TextEditingController();
   @override
@@ -34,14 +35,14 @@ class _CreateItemPageState extends State<CreateItemPage> {
           child: Container(
             margin: const EdgeInsets.only(top: 15, left: 20, right: 20),
             child: Form(
-              key: _formKey,
+              key: _formKey1,
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
                       Text(
-                        "Add Expenses",
+                        "Add Item",
                         style: TextStyle(
                             color: primaryClr,
                             fontSize: 23,
@@ -77,9 +78,9 @@ class _CreateItemPageState extends State<CreateItemPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ButtonWidget(
-                          label: 'Add Expenses',
+                          label: 'Add Item',
                           onTap: () async {
-                            if (_formKey.currentState!.validate()) {
+                            if (_formKey1.currentState!.validate()) {
                               final ExpenseListModel explist =
                                   ExpenseListModel();
                               _addItemToDB(explist);
@@ -89,7 +90,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
                           },
                           color: primaryClr)
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
@@ -99,8 +100,13 @@ class _CreateItemPageState extends State<CreateItemPage> {
     );
   }
 
-  _addItemToDB(ExpenseListModel explist) {
-    explist.itemName = _itemNameController.text;
-    // explist.budget = double.parse(_totalBudgetController.text);
+  _addItemToDB(ExpenseListModel list) {
+    list.expensesTableid = expenseID;
+    list.itemName = _itemNameController.text;
+    list.budget = double.parse(_totalBudgetController.text);
+    // explist.expensesTableid =
+    print(list.expensesTableid);
+    print('id: $expenseID');
+    print('name: $list.itemName}');
   }
 }

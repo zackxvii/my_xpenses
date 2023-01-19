@@ -111,13 +111,13 @@ class _DashboardPageState extends State<DashboardPage> {
                     textScaleFactor: 1.5,
                   ),
                   trailing: const Icon(Icons.edit),
-                  subtitle: Text(em.desc!),
+                  subtitle: Text(em.desc.toString()),
                   selected: true,
                   onTap: () {
                     setState(
                       () {
                         txt = 'List Tile pressed';
-                        Get.toNamed(path);
+                        Get.toNamed(path, arguments: em.id!);
                       },
                     );
                   },

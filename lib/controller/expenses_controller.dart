@@ -11,6 +11,11 @@ class ExpensesController extends GetxController {
         .assignAll(exp.map((data) => ExpenseModel.fromMap(data)).toList());
   }
 
+  Future<void> getExpensesbyId(int id) async {
+    await DBHelper().getExpenseByID(id);
+    getExpenses();
+  }
+
   addExpenses(ExpenseModel exp) async {
     await DBHelper().createExpenses(exp);
     expensesList.add(exp);

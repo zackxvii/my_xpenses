@@ -1,33 +1,29 @@
 class ExpenseListModel {
   int? itemId;
-  // int? expensesTableid;
+  int? expensesTableid;
   String? itemName;
-  // double? budget;
-  // String? date;
+  double? budget;
 
   ExpenseListModel({
     this.itemId,
-    // this.expensesTableid,
+    this.expensesTableid,
     this.itemName,
-    // this.budget,
-    //this.date
+    this.budget,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'itemId': itemId,
-      // 'expensesTableid': expensesTableid,
+      'expensesTableid': expensesTableid,
       'itemName': itemName,
-      // 'budget': budget,
-      // 'date': date,
+      'budget': budget,
     };
   }
 
   ExpenseListModel.fromMap(Map<String, dynamic> list) {
     itemId = list['itemId'];
-    // expensesTableid = list['expensesTableid'];
+    expensesTableid = list['expensesTableid'];
     itemName = list['itemName'];
-    // budget = list['budget'];
-    // date = list['date'];
+    budget = list['budget'];
   }
 }
